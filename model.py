@@ -2,6 +2,22 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 
+class ConvNet:
+    def __init__(self, weights_path=None):
+        self.tf_model = self.create_model()
+
+    def create_model(self):
+        x = layers.Input(shape=(2000, 32, 1))
+        fx = layers.Conv2D(filters=8, kernel_size=7, padding='same')(x)
+        fx = layers.BatchNormalization()(fx)
+        fx = layers.ReLU()(fx)
+        fx = layers.Flatten()(fx)
+        fx = layers.Dense(1, activation='sigmoid')(fx)
+        model = tf.keras.Model(inputs=x, outputs=fx, name='MicrowaveLiquidConvClassifier')
+        model.summary()
+        return model
+
+
 class MicrowaveLSTM:
     def __init__(self, window_size, num_classes, weights_path=None):
         self.window_size = window_size
